@@ -1,0 +1,229 @@
+call plug#begin('~/.vim/plugged')
+
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'rking/ag.vim'
+Plug 'godlygeek/tabular'
+Plug 'zerowidth/vim-copy-as-rtf'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'ap/vim-css-color'
+Plug 'jayflo/vim-skip'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'tmhedberg/matchit'
+Plug 'tomtom/tcomment_vim'
+Plug 'itchyny/lightline.vim'
+Plug 'mhartington/oceanic-next'
+Plug 'henrik/vim-indexed-search'
+
+call plug#end()
+
+" Color scheme
+if filereadable(expand("$HOME/.vim/plugged/oceanic-next/colors/OceanicNext.vim"))
+  syntax enable
+  " for vim 7
+  set t_Co=256
+
+
+  " for vim 8
+  if (has("termguicolors"))
+    set termguicolors
+  endif
+
+  let g:oceanic_next_terminal_bold = 1
+  let g:oceanic_next_terminal_italic = 1
+
+  colorscheme OceanicNext
+endif
+
+" Main configurations
+set nocompatible
+
+set colorcolumn=80
+set hidden
+set nowrap        " don't wrap lines
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set tabpagemax=20
+set showtabline=2
+set smarttab
+set smartindent
+set expandtab
+set backspace=indent,eol,start
+                  " allow backspacing over everything in insert mode
+set autoindent    " always set autoindenting on
+set copyindent    " copy the previous indentation on autoindenting
+set number        " always show line numbers
+set numberwidth=5
+set shiftround    " use multiple of shiftwidth when indenting with '<' and '>'
+set showmatch     " set show matching parenthesis
+set ignorecase    " ignore case when searching
+set smartcase     " ignore case if search pattern is all lowercase,
+                  "    case-sensitive otherwise
+set smarttab      " insert tabs on the start of a line according to
+                  "    shiftwidth, not tabstop
+set hlsearch    " highlight search terms
+set incsearch     " show search matches as you type
+set title
+set visualbell           " don't beep
+set noerrorbells         " don't beep
+set history=1000         " remember more commands and search history
+set undolevels=1000      " use many levels of undo
+set undofile  "Maintain undo history between sessions
+set undodir=~/.vim/undodir
+set nobackup
+set noswapfile " Don't create swap file
+set nowritebackup
+set autoread " Load file when change
+set guioptions-=r " Removes right hand scroll bar
+set clipboard+=unnamed
+set mouse=a
+set ttymouse=xterm2
+set wildmenu "Better popup menu
+set confirm "Dialog to ask when closing unsave changes
+set nofoldenable " disable folding
+
+"Disable sounds and screen flashing
+set visualbell
+set t_vb=
+
+"May be improve the speed
+set lazyredraw
+set ttyfast
+
+" Wildignore
+set wildignore+=*.o,*.obj,system*,*.svg,*.ttf,*.eot,*.jpg,*.png,*.gif,*.log,tmp,yard_templates,coverage
+set list listchars=tab:»·,trail:·
+
+" Encoding
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
+
+" show tab number
+au BufRead,BufNewFile * set guitablabel=%N.\ %t\ %M
+
+" Leader key
+let mapleader=","
+
+" Mapping
+
+" ctrl+tab to next tab
+noremap <c-tab> :tabnext<cr>
+noremap tn :tabnew<cr>
+
+" Map tabs command + number
+nmap <D-1> 1gt<cr>
+nmap <D-2> 2gt<cr>
+nmap <D-3> 3gt<cr>
+nmap <D-4> 4gt<cr>
+nmap <D-5> 5gt<cr>
+nmap <D-6> 6gt<cr>
+nmap <D-7> 7gt<cr>
+nmap <D-8> 8gt<cr>
+nmap <D-9> 9gt<cr>
+nmap <D-[> gT
+nmap <D-]> gt
+nmap <D-0> :tablast<CR>
+
+" Nohl
+nmap <c-h> :nohl<cr>
+
+" Copy file names
+nmap ,cs :let @*=expand("%")<CR>
+nmap ,cl :let @*=expand("%:p")<CR>
+nmap ,cr :let @*=('rspec ' . expand("%") . ':' . line("."))<CR>
+nmap ,cg :let @*=('https://github.com/bioritmo/Smart-System/blob/master/' . expand("%") . '#L' . line("."))<CR>
+
+" Alias to save and quit
+command WQ wq
+command Wq wq
+command W w
+command Q q
+command QA qa
+command Qa qa
+
+" Remove trailing whitespace
+au BufWritePre * :%s/\s\+$//e
+
+" File identation
+au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null
+au FileType json setlocal equalprg=python\ -m\ json.tool
+
+" Custom commands
+command! -range=% RubyNewHashNotation silent execute <line1>.','.<line2>.'s/:\(\w\+\)\s*=>\s*/\1: /g'
+
+" FZF Configurations
+if executable('fzf')
+  let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+  " FZF {{{
+  " <C-p> or <C-t> to search files
+  nnoremap <silent> <C-t> :FZF -m<cr>
+  nnoremap <silent> <C-p> :FZF -m<cr>
+
+  " <M-p> for open buffers
+  nnoremap <silent> <M-p> :Buffers<cr>
+
+  " <M-S-p> for MRU
+  nnoremap <silent> <M-S-p> :History<cr>
+
+  " Use fuzzy completion relative filepaths across directory
+  inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
+    \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
+    \ fzf#wrap({'dir': expand('%:p:h')}))
+
+  " Better command history with q:
+  command! CmdHist call fzf#vim#command_history({'right': '40'})
+  nnoremap q: :CmdHist<CR>
+
+  " Better search history
+  command! QHist call fzf#vim#search_history({'right': '40'})
+  nnoremap q/ :QHist<CR>
+
+  " Customize fzf colors to match your color scheme
+  let g:fzf_colors =
+      \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
+end
+
+" NerdTree Configurations
+nmap wm :NERDTree<cr>
+let NERDTreeIgnore=['\.swp$']
+silent! nmap <silent> <Leader>p :NERDTreeToggle<CR>
+let g:NERDTreeWinSize = 30
+
+" AG Configurations
+if executable('ag')
+  " Use Ag over Grep
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap \ :Ag<SPACE>
+
+" ultisnips Configurations
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" vim-move Configurations
+let g:move_key_modifier = 'C'
+
+" lightline Configurations
+set laststatus=2
