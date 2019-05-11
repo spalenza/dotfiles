@@ -1,0 +1,52 @@
+[user]
+  name = Rodolfo Spalenza
+  email = rodolfo.spalenza@gmail.com
+[core]
+  editor = vim
+  excludesfile = $HOME/.gitignore
+  pager = $(brew --prefix git)/share/git-core/contrib/diff-highlight/diff-highlight | less -r
+  mergeoptions = --no-ff
+  autocrlf = input
+[github]
+  user = spalenza
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "diff"]
+  commit = green
+  meta = yellow
+  frag = cyan
+  old = red
+  new = green
+  whitespace = red reverse
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+[color "diff-highlight"]
+  oldNormal = red bold
+  oldHighlight = red bold 52
+  newNormal = green bold
+  newHighlight = green bold 22
+[alias]
+  ci = commit
+  st = status
+  br = branch
+  co = checkout
+  df = diff
+  lg = log --pretty=format:'%C(bold)–%Creset %C(red bold)%h%d%Creset | %C(green)%an%Creset | %C(magenta)%cr%Creset \n %C(cyan)%s%Creset'
+  who = shortlog -s --
+  hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+[merge]
+  ff = false
+[push]
+  default = current
+[diff]
+  tool = vimdiff
+[init]
+  templatedir = $HOME/.git
