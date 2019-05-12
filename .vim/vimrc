@@ -222,8 +222,5 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-" vim-move Configurations
-let g:move_key_modifier = 'C'
-
 " lightline Configurations
 set laststatus=2
