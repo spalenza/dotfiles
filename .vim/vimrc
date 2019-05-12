@@ -133,9 +133,7 @@ nmap <D-0> :tablast<CR>
 " Nohl
 nmap <c-h> :nohl<cr>
 
-function! GituhubLineUrl()
-  let [sline, scol, soff]=getpos("'<")[1:]
-  let [eline, ecol, eoff]=getpos("'>")[1:]
+function! GithubCopyLineUrl()
   let commit = substitute(system('git rev-parse HEAD'), '[\]\|[[:cntrl:]]', '', 'g')
   let cmd = 'git ls-remote --get-url | sed "s/:/\//g" | sed "s/git@/https:\/\//g" | sed "s/\.git/\/blob\//g"'
   let result = substitute(system(cmd), '[\]\|[[:cntrl:]]', '', 'g')
@@ -145,7 +143,7 @@ endfunction
 nmap ,cs :let @*=expand("%")<CR>
 nmap ,cl :let @*=expand("%:p")<CR>
 nmap ,cr :let @*=('rspec ' . expand("%") . ':' . line("."))<CR>
-nmap ,cg :call GituhubLineUrl()<CR>
+nmap ,cg :call GithubCopyLineUrl()<CR>
 
 " Alias to save and quit
 command WQ wq
