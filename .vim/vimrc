@@ -134,16 +134,26 @@ nmap <D-0> :tablast<CR>
 nmap <c-h> :nohl<cr>
 
 function! GithubCopyLineUrl()
+  let line1 = a:firstline
+  let line2 = a:lastline
   let commit = substitute(system('git rev-parse HEAD'), '[\]\|[[:cntrl:]]', '', 'g')
   let cmd = 'git ls-remote --get-url | sed "s/:/\//g" | sed "s/git@/https:\/\//g" | sed "s/\.git/\/blob\//g"'
   let result = substitute(system(cmd), '[\]\|[[:cntrl:]]', '', 'g')
-  let @*=(result . commit . '/' . expand("%") . '#L' . line("."))
+
+  if line1 != line2
+    let lines = '#L' . line1 . '-L' . line2
+  else
+    let lines = '#L' . line1
+  endif
+
+  let @*=(result . commit . '/' . expand("%") . lines)
 endfunction
 
 nmap ,cs :let @*=expand("%")<CR>
 nmap ,cl :let @*=expand("%:p")<CR>
 nmap ,cr :let @*=('rspec ' . expand("%") . ':' . line("."))<CR>
 nmap ,cg :call GithubCopyLineUrl()<CR>
+vnoremap ,cg :call GithubCopyLineUrl()<CR>
 
 " Alias to save and quit
 command WQ wq
