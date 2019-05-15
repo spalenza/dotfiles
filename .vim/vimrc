@@ -44,7 +44,7 @@ set nocompatible
 
 set colorcolumn=80
 set hidden
-set nowrap        " don't wrap lines
+set wrap        " wrap lines
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -149,11 +149,11 @@ function! GithubCopyLineUrl()
   let @*=(result . commit . '/' . expand("%") . lines)
 endfunction
 
-nmap ,cs :let @*=expand("%")<CR>
-nmap ,cl :let @*=expand("%:p")<CR>
-nmap ,cr :let @*=('rspec ' . expand("%") . ':' . line("."))<CR>
-nmap ,cg :call GithubCopyLineUrl()<CR>
-vnoremap ,cg :call GithubCopyLineUrl()<CR>
+nmap <Leader>cs :let @*=expand("%")<CR>
+nmap <Leader>cl :let @*=expand("%:p")<CR>
+nmap <Leader>cr :let @*=('rspec ' . expand("%") . ':' . line("."))<CR>
+nmap <Leader>cg :call GithubCopyLineUrl()<CR>
+vnoremap <Leader>cg :call GithubCopyLineUrl()<CR>
 
 " Alias to save and quit
 command WQ wq
@@ -186,11 +186,6 @@ if executable('fzf')
 
   " <M-S-p> for MRU
   nnoremap <silent> <M-S-p> :History<cr>
-
-  " Use fuzzy completion relative filepaths across directory
-  inoremap <expr> <c-x><c-f> fzf#vim#complete#path(
-    \ "find . -path '*/\.*' -prune -o -print \| sed '1d;s:^..::'",
-    \ fzf#wrap({'dir': expand('%:p:h')}))
 
   " Better command history with q:
   command! CmdHist call fzf#vim#command_history({'right': '40'})
@@ -240,3 +235,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " lightline Configurations
 set laststatus=2
+set noshowmode
+let g:lightline = {
+    \ 'active': {
+    \   'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified']]
+    \ }}
