@@ -176,24 +176,22 @@ command! -range=% RubyNewHashNotation silent execute <line1>.','.<line2>.'s/:\(\
 " FZF Configurations
 if executable('fzf')
   let $FZF_DEFAULT_COMMAND = 'ag -g ""'
-  " FZF {{{
-  " <C-p> or <C-t> to search files
-  nnoremap <silent> <C-t> :FZF -m<cr>
+
+  " <C-p>to search files
   nnoremap <silent> <C-p> :FZF -m<cr>
 
   " <M-p> for open buffers
   nnoremap <silent> <M-p> :Buffers<cr>
 
-  " <M-S-p> for MRU
-  nnoremap <silent> <M-S-p> :History<cr>
-
-  " Better command history with q:
-  command! CmdHist call fzf#vim#command_history({'right': '40'})
-  nnoremap q: :CmdHist<CR>
-
   " Better search history
   command! QHist call fzf#vim#search_history({'right': '40'})
   nnoremap q/ :QHist<CR>
+
+" Enable per-command history.
+  " CTRL-N and CTRL-P will be automatically bound to next-history and
+  " previous-history instead of down and up. If you don't like the change,
+  " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+  let g:fzf_history_dir = '~/.vim/share/fzf'
 
   " Customize fzf colors to match your color scheme
   let g:fzf_colors =
