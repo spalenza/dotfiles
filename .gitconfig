@@ -49,4 +49,4 @@
 [diff]
   tool = vimdiff
 [init]
-  templatedir = $HOME/.git
+  templatedir = ~/.git
