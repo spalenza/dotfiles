@@ -163,6 +163,9 @@ command Q q
 command QA qa
 command Qa qa
 
+" Aliast to file type
+nmap <Leader>ftr :set ft=ruby<CR>
+
 " Remove trailing whitespace
 au BufWritePre * :%s/\s\+$//e
 
