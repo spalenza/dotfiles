@@ -7,7 +7,7 @@ Plug 'rking/ag.vim'
 Plug 'godlygeek/tabular'
 Plug 'zerowidth/vim-copy-as-rtf'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'vim-ruby/vim-ruby'
+Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-rails'
 Plug 'ap/vim-css-color'
 Plug 'jayflo/vim-skip'
@@ -163,7 +163,7 @@ command Q q
 command QA qa
 command Qa qa
 
-" Aliast to file type
+" Set FileTypes
 nmap <Leader>ftr :set ft=ruby<CR>
 
 " Remove trailing whitespace
