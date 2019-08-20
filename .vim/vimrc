@@ -86,6 +86,7 @@ set ttymouse=xterm2
 set wildmenu "Better popup menu
 set confirm "Dialog to ask when closing unsave changes
 set nofoldenable " disable folding
+set redrawtime=10000
 
 "Disable sounds and screen flashing
 set visualbell
