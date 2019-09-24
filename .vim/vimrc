@@ -218,6 +218,7 @@ end
 nmap wm :NERDTree<cr>
 let NERDTreeIgnore=['\.swp$']
 silent! nmap <silent> <Leader>p :NERDTreeToggle<CR>
+silent! nmap <silent> <Leader>r :NERDTreeFind<CR>
 let g:NERDTreeWinSize = 30
 
 " AG Configurations
