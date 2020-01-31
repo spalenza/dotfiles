@@ -152,7 +152,7 @@ endfunction
 
 nmap <Leader>cs :let @*=expand("%")<CR>
 nmap <Leader>cl :let @*=expand("%:p")<CR>
-nmap <Leader>cr :let @*=('rspec ' . expand("%") . ':' . line("."))<CR>
+nmap <Leader>cr :let @*=('bin/rspec ' . expand("%") . ':' . line("."))<CR>
 nmap <Leader>cg :call GithubCopyLineUrl()<CR>
 vnoremap <Leader>cg :call GithubCopyLineUrl()<CR>
 
