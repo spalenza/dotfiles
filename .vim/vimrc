@@ -1,6 +1,6 @@
 call plug#begin('~/.vim/plugged')
 
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'rking/ag.vim'
@@ -42,7 +42,7 @@ endif
 " Main configurations
 set nocompatible
 
-set colorcolumn=80
+set colorcolumn=120
 set hidden
 set wrap        " wrap lines
 set tabstop=2
@@ -191,11 +191,14 @@ if executable('fzf')
   command! QHist call fzf#vim#search_history({'right': '40'})
   nnoremap q/ :QHist<CR>
 
-" Enable per-command history.
+  " Enable per-command history.
   " CTRL-N and CTRL-P will be automatically bound to next-history and
   " previous-history instead of down and up. If you don't like the change,
   " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
   let g:fzf_history_dir = '~/.vim/share/fzf'
+
+  " Layouy
+  let g:fzf_layout = { 'down': '~40%' }
 
   " Customize fzf colors to match your color scheme
   let g:fzf_colors =
