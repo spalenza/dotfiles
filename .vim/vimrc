@@ -182,7 +182,7 @@ if executable('fzf')
   let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
   " <C-p>to search files
-  nnoremap <silent> <C-p> :FZF -m<cr>
+  nnoremap <silent> <C-p> :Files<cr>
 
   " <M-p> for open buffers
   nnoremap <silent> <M-p> :Buffers<cr>
