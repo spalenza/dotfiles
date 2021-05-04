@@ -246,3 +246,7 @@ let g:lightline = {
     \ 'active': {
     \   'left': [['mode', 'paste'], ['readonly', 'relativepath', 'modified']]
     \ }}
+
+" Move visual selection
+vnoremap J :m '>+1<cr>gv=gv
+vnoremap K :m '<-2<cr>gv=gv
