@@ -18,6 +18,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'itchyny/lightline.vim'
 Plug 'mhartington/oceanic-next'
 Plug 'henrik/vim-indexed-search'
+Plug 'ryanoasis/vim-devicons'
+Plug 'vwxyutarooo/nerdtree-devicons-syntax'
 
 call plug#end()
 
@@ -134,7 +136,7 @@ nmap <D-0> :tablast<CR>
 " Nohl
 nmap <c-h> :nohl<cr>
 
-function! GithubCopyLineUrl()
+function! RepositoryCopyLineUrl()
   let line1 = a:firstline
   let line2 = a:lastline
   let commit = substitute(system('git rev-parse HEAD'), '[\]\|[[:cntrl:]]', '', 'g')
@@ -142,19 +144,20 @@ function! GithubCopyLineUrl()
   let result = substitute(system(cmd), '[\]\|[[:cntrl:]]', '', 'g')
 
   if line1 != line2
-    let lines = '#L' . line1 . '-L' . line2
+    let lines = '#L' . line1 . '-' . line2
   else
     let lines = '#L' . line1
   endif
 
-  let @*=(result . commit . '/' . expand("%") . lines)
+  let @+=(result . commit . '/' . expand("%") . lines)
 endfunction
 
 nmap <Leader>cs :let @*=expand("%")<CR>
 nmap <Leader>cl :let @*=expand("%:p")<CR>
-nmap <Leader>cr :let @*=('bin/rspec ' . expand("%") . ':' . line("."))<CR>
-nmap <Leader>cg :call GithubCopyLineUrl()<CR>
-vnoremap <Leader>cg :call GithubCopyLineUrl()<CR>
+nmap <Leader>br :let @*=('bin/rspec ' . expand("%") . ':' . line("."))<CR>
+nmap <Leader>dr :let @*=('docker/rspec ' . expand("%") . ':' . line("."))<CR>
+nmap <Leader>cg :call RepositoryCopyLineUrl()<CR>
+vnoremap <Leader>cg :call RepositoryCopyLineUrl()<CR>
 
 " Alias to save and quit
 command WQ wq
@@ -231,7 +234,7 @@ if executable('ag')
 endif
 
 " bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap F :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap \ :Ag<SPACE>
 
 " ultisnips Configurations
@@ -250,3 +253,23 @@ let g:lightline = {
 " Move visual selection
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
+
+" Nerdtree syntax highlight
+let s:colors = {
+  \ 'brown'       : "905532",
+  \ 'aqua'        : "3AFFDB",
+  \ 'blue'        : "689FB6",
+  \ 'darkBlue'    : "44788E",
+  \ 'purple'      : "834F79",
+  \ 'lightPurple' : "834F79",
+  \ 'red'         : "AE403F",
+  \ 'beige'       : "F5C06F",
+  \ 'yellow'      : "F09F17",
+  \ 'orange'      : "D4843E",
+  \ 'darkOrange'  : "F16529",
+  \ 'pink'        : "CB6F6F",
+  \ 'salmon'      : "EE6E73",
+  \ 'green'       : "8FAA54",
+  \ 'lightGreen'  : "31B53E",
+  \ 'white'       : "FFFFFF"
+\ }
